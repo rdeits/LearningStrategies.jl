@@ -4,6 +4,7 @@ module LearningStrategies
 
 # ----------------------------------------------------------------------
 
+using Compat: @compat
 using LearnBase
 import LearnBase: learn!
 
@@ -29,7 +30,7 @@ export
 
 # ----------------------------------------------------------------------
 
-abstract LearningStrategy
+@compat abstract type LearningStrategy end
 
 # fallbacks don't do anything
 pre_hook(strat::LearningStrategy, model)      = return

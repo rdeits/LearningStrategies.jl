@@ -78,10 +78,11 @@ type ConvergedTo{V} <: LearningStrategy
     tol::Float64  # normdiff tolerance
     goal::V       # goal value
     every::Int    # only check every ith iteration
+
+    (::Type{ConvergedTo{V}}){V}(f::Function, tol::Number, goal::V, every::Integer) = new{V}(f, tol, goal, every)
 end
-function ConvergedTo(f::Function, goal; tol::Number = 1e-6, every::Int = 1)
-    ConvergedTo(f, tol, goal, every)
-end
+ConvergedTo{V}(f::Function, goal::V; tol::Number = 1e-6, every::Int = 1) = ConvergedTo{V}(f, tol, goal, every)
+
 function finished(strat::ConvergedTo, model, i)
     val = strat.f(model)
     if norm(val - strat.goal) <= strat.tol
